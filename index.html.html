@@ -1,0 +1,1676 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Year 7 Exam Study Hub - Get Your A!</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .header {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            text-align: center;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+        }
+
+        .header h1 {
+            color: #667eea;
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            color: #666;
+            font-size: 1.2em;
+        }
+
+        .progress-section {
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 30px;
+            background: #e0e0e0;
+            border-radius: 15px;
+            overflow: hidden;
+            margin-top: 10px;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #667eea, #764ba2);
+            transition: width 0.5s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+        }
+
+        .subject-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .subject-card {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+        }
+
+        .subject-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.2);
+        }
+
+        .subject-card h3 {
+            font-size: 1.5em;
+            margin-bottom: 10px;
+            color: #333;
+        }
+
+        .subject-card p {
+            color: #666;
+            margin-bottom: 15px;
+        }
+
+        .subject-icon {
+            font-size: 3em;
+            margin-bottom: 15px;
+        }
+
+        .study-modes {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        .mode-btn {
+            padding: 12px 20px;
+            border: none;
+            border-radius: 10px;
+            font-size: 1em;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: bold;
+        }
+
+        .quiz-btn {
+            background: #ff6b6b;
+            color: white;
+        }
+
+        .flashcard-btn {
+            background: #4ecdc4;
+            color: white;
+        }
+
+        .game-btn {
+            background: #ffe66d;
+            color: #333;
+        }
+
+        .notes-btn {
+            background: #a8e6cf;
+            color: #333;
+        }
+
+        .mode-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.8);
+            z-index: 1000;
+            overflow-y: auto;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 20px;
+            max-width: 900px;
+            margin: 50px auto;
+            padding: 40px;
+            position: relative;
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            font-size: 2em;
+            cursor: pointer;
+            color: #999;
+            background: none;
+            border: none;
+        }
+
+        .close-btn:hover {
+            color: #333;
+        }
+
+        .quiz-container, .flashcard-container, .game-container {
+            margin-top: 30px;
+        }
+
+        .question {
+            background: #f8f9fa;
+            padding: 25px;
+            border-radius: 15px;
+            margin-bottom: 20px;
+        }
+
+        .question h4 {
+            color: #667eea;
+            margin-bottom: 15px;
+            font-size: 1.2em;
+        }
+
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .option {
+            padding: 15px 20px;
+            border: 2px solid #ddd;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: white;
+        }
+
+        .option:hover {
+            border-color: #667eea;
+            background: #f0f3ff;
+        }
+
+        .option.correct {
+            border-color: #4caf50;
+            background: #e8f5e9;
+        }
+
+        .option.incorrect {
+            border-color: #f44336;
+            background: #ffebee;
+        }
+
+        .flashcard {
+            width: 100%;
+            height: 300px;
+            perspective: 1000px;
+            margin-bottom: 20px;
+        }
+
+        .flashcard-inner {
+            width: 100%;
+            height: 100%;
+            transition: transform 0.6s;
+            transform-style: preserve-3d;
+            position: relative;
+            cursor: pointer;
+        }
+
+        .flashcard-inner.flipped {
+            transform: rotateY(180deg);
+        }
+
+        .flashcard-front, .flashcard-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 15px;
+            padding: 30px;
+            font-size: 1.3em;
+            text-align: center;
+        }
+
+        .flashcard-front {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+        }
+
+        .flashcard-back {
+            background: linear-gradient(135deg, #f093fb, #f5576c);
+            color: white;
+            transform: rotateY(180deg);
+        }
+
+        .nav-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+        }
+
+        .nav-btn {
+            padding: 12px 30px;
+            border: none;
+            border-radius: 10px;
+            background: #667eea;
+            color: white;
+            font-size: 1em;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .nav-btn:hover {
+            background: #764ba2;
+        }
+
+        .nav-btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+
+        .score-display {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 20px;
+            border-radius: 15px;
+            text-align: center;
+            font-size: 1.5em;
+            margin-bottom: 20px;
+        }
+
+        .matching-game {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-top: 20px;
+        }
+
+        .matching-column {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .match-item {
+            padding: 15px;
+            border: 2px solid #ddd;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: white;
+        }
+
+        .match-item:hover {
+            border-color: #667eea;
+            background: #f0f3ff;
+        }
+
+        .match-item.selected {
+            border-color: #667eea;
+            background: #667eea;
+            color: white;
+        }
+
+        .match-item.matched {
+            border-color: #4caf50;
+            background: #4caf50;
+            color: white;
+            cursor: default;
+        }
+
+        .submit-btn {
+            padding: 15px 40px;
+            border: none;
+            border-radius: 10px;
+            background: #4caf50;
+            color: white;
+            font-size: 1.2em;
+            cursor: pointer;
+            margin-top: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .submit-btn:hover {
+            background: #45a049;
+            transform: scale(1.05);
+        }
+
+        .notes-section {
+            background: #f8f9fa;
+            padding: 25px;
+            border-radius: 15px;
+            margin-bottom: 20px;
+        }
+
+        .notes-section h4 {
+            color: #667eea;
+            margin-bottom: 15px;
+        }
+
+        .notes-section ul {
+            margin-left: 20px;
+            line-height: 1.8;
+        }
+
+        .achievement-badge {
+            display: inline-block;
+            padding: 5px 15px;
+            background: gold;
+            color: #333;
+            border-radius: 20px;
+            font-weight: bold;
+            margin: 5px;
+            animation: bounce 0.5s;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .timer {
+            background: #ff6b6b;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 10px;
+            font-size: 1.2em;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .stat-card {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 2em;
+            color: #667eea;
+            font-weight: bold;
+        }
+
+        .stat-label {
+            color: #666;
+            margin-top: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🎓 Year 7 Exam Study Hub</h1>
+            <p>Let's ace those exams! Study smart, score high! 🌟</p>
+        </div>
+
+        <div class="progress-section">
+            <h3>Overall Study Progress</h3>
+            <div class="progress-bar">
+                <div class="progress-fill" id="overallProgress">0%</div>
+            </div>
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-number" id="quizzesCompleted">0</div>
+                    <div class="stat-label">Quizzes Done</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="flashcardsReviewed">0</div>
+                    <div class="stat-label">Flashcards</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="gamesPlayed">0</div>
+                    <div class="stat-label">Games Played</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="avgScore">0%</div>
+                    <div class="stat-label">Avg Score</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="subject-grid">
+            <div class="subject-card" style="border-top: 5px solid #4caf50;">
+                <div class="subject-icon">🌱</div>
+                <h3>Science</h3>
+                <p>Food Chains & Food Webs</p>
+                <div class="study-modes">
+                    <button class="mode-btn quiz-btn" onclick="openQuiz('science')">📝 Quiz</button>
+                    <button class="mode-btn flashcard-btn" onclick="openFlashcards('science')">🎴 Flashcards</button>
+                    <button class="mode-btn game-btn" onclick="openGame('science')">🎮 Game</button>
+                    <button class="mode-btn notes-btn" onclick="openNotes('science')">📚 Notes</button>
+                </div>
+            </div>
+
+            <div class="subject-card" style="border-top: 5px solid #2196f3;">
+                <div class="subject-icon">🎵</div>
+                <h3>Music</h3>
+                <p>Ties & Dotted Notes</p>
+                <div class="study-modes">
+                    <button class="mode-btn quiz-btn" onclick="openQuiz('music')">📝 Quiz</button>
+                    <button class="mode-btn flashcard-btn" onclick="openFlashcards('music')">🎴 Flashcards</button>
+                    <button class="mode-btn game-btn" onclick="openGame('music')">🎮 Game</button>
+                    <button class="mode-btn notes-btn" onclick="openNotes('music')">📚 Notes</button>
+                </div>
+            </div>
+
+            <div class="subject-card" style="border-top: 5px solid #ff9800;">
+                <div class="subject-icon">🇪🇸</div>
+                <h3>Spanish</h3>
+                <p>Greetings, Family, House & More</p>
+                <div class="study-modes">
+                    <button class="mode-btn quiz-btn" onclick="openQuiz('spanish')">📝 Quiz</button>
+                    <button class="mode-btn flashcard-btn" onclick="openFlashcards('spanish')">🎴 Flashcards</button>
+                    <button class="mode-btn game-btn" onclick="openGame('spanish')">🎮 Game</button>
+                    <button class="mode-btn notes-btn" onclick="openNotes('spanish')">📚 Notes</button>
+                </div>
+            </div>
+
+            <div class="subject-card" style="border-top: 5px solid #e91e63;">
+                <div class="subject-icon">📖</div>
+                <h3>English B</h3>
+                <p>Literature Stories Analysis</p>
+                <div class="study-modes">
+                    <button class="mode-btn quiz-btn" onclick="openQuiz('english')">📝 Quiz</button>
+                    <button class="mode-btn flashcard-btn" onclick="openFlashcards('english')">🎴 Flashcards</button>
+                    <button class="mode-btn game-btn" onclick="openGame('english')">🎮 Game</button>
+                    <button class="mode-btn notes-btn" onclick="openNotes('english')">📚 Notes</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <div id="modal" class="modal">
+        <div class="modal-content">
+            <button class="close-btn" onclick="closeModal()">&times;</button>
+            <div id="modalBody"></div>
+        </div>
+    </div>
+
+    <script>
+        // Study data structure
+        const studyData = {
+            science: {
+                quizzes: [
+                    {
+                        question: "What is a food chain?",
+                        options: [
+                            "A list of organisms showing their feeding relationships",
+                            "A type of restaurant",
+                            "A chain made of food",
+                            "A shopping list"
+                        ],
+                        correct: 0,
+                        explanation: "A food chain shows what eats what in a habitat, with arrows showing energy transfer."
+                    },
+                    {
+                        question: "What do food chains always start with?",
+                        options: [
+                            "A consumer",
+                            "A decomposer",
+                            "A producer",
+                            "An apex predator"
+                        ],
+                        correct: 2,
+                        explanation: "Food chains always start with a producer, usually a green plant that uses photosynthesis."
+                    },
+                    {
+                        question: "What is a primary consumer?",
+                        options: [
+                            "A plant that makes food",
+                            "An animal that eats plants (herbivore)",
+                            "An animal that eats other animals",
+                            "A decomposer"
+                        ],
+                        correct: 1,
+                        explanation: "A primary consumer is a herbivore that eats producers (plants)."
+                    },
+                    {
+                        question: "What is the role of decomposers?",
+                        options: [
+                            "To eat plants only",
+                            "To hunt other animals",
+                            "To break down dead organisms and waste",
+                            "To produce oxygen"
+                        ],
+                        correct: 2,
+                        explanation: "Decomposers break down dead organisms and waste, returning nutrients to the soil."
+                    },
+                    {
+                        question: "What is an apex predator?",
+                        options: [
+                            "The first animal in a food chain",
+                            "The top predator that is not eaten by anything else",
+                            "An animal that only eats plants",
+                            "A type of decomposer"
+                        ],
+                        correct: 1,
+                        explanation: "An apex predator is at the top of the food chain and has no natural predators."
+                    },
+                    {
+                        question: "What is an ecosystem?",
+                        options: [
+                            "Only the plants in an area",
+                            "Only the animals in an area",
+                            "Living organisms and their physical environment together",
+                            "A type of food chain"
+                        ],
+                        correct: 2,
+                        explanation: "An ecosystem includes all living organisms and their physical environment in a particular space."
+                    },
+                    {
+                        question: "What is the difference between a food chain and a food web?",
+                        options: [
+                            "They are the same thing",
+                            "A food web shows multiple interconnected food chains",
+                            "A food chain is more complex",
+                            "A food web only shows plants"
+                        ],
+                        correct: 1,
+                        explanation: "A food web is a complex network of interconnected food chains in an ecosystem."
+                    },
+                    {
+                        question: "What is a secondary consumer?",
+                        options: [
+                            "An animal that eats plants",
+                            "An animal that eats primary consumers (usually a carnivore)",
+                            "A plant",
+                            "A decomposer"
+                        ],
+                        correct: 1,
+                        explanation: "A secondary consumer eats primary consumers and is typically a carnivore."
+                    },
+                    {
+                        question: "What is a herbivore?",
+                        options: [
+                            "An animal that eats only meat",
+                            "An animal that eats only plants",
+                            "An animal that eats both plants and meat",
+                            "An animal that breaks down waste"
+                        ],
+                        correct: 1,
+                        explanation: "A herbivore is an animal that eats only plants."
+                    },
+                    {
+                        question: "What is an omnivore?",
+                        options: [
+                            "An animal that eats only plants",
+                            "An animal that eats only meat",
+                            "An animal that eats both plants and animals",
+                            "An animal that is a decomposer"
+                        ],
+                        correct: 2,
+                        explanation: "An omnivore eats both plants and animals."
+                    },
+                    {
+                        question: "What is a population in ecology?",
+                        options: [
+                            "All different species in an area",
+                            "A group of individuals of the same species in the same area",
+                            "All the plants in an area",
+                            "The number of predators"
+                        ],
+                        correct: 1,
+                        explanation: "A population is a group of individuals of the same species living in the same area."
+                    },
+                    {
+                        question: "What is a community?",
+                        options: [
+                            "Only one species in an area",
+                            "All different populations living together in one area",
+                            "Only plants in an ecosystem",
+                            "Only animals in an ecosystem"
+                        ],
+                        correct: 1,
+                        explanation: "A community includes all different populations living together in one area."
+                    },
+                    {
+                        question: "What provides energy for most life on Earth?",
+                        options: [
+                            "Water",
+                            "Soil",
+                            "Photosynthesis (from sunlight)",
+                            "Wind"
+                        ],
+                        correct: 2,
+                        explanation: "Photosynthesis, which uses sunlight, provides the energy for most life on Earth."
+                    },
+                    {
+                        question: "In the food chain: Grass → Rabbit → Fox, what is the rabbit?",
+                        options: [
+                            "Producer",
+                            "Primary consumer",
+                            "Secondary consumer",
+                            "Decomposer"
+                        ],
+                        correct: 1,
+                        explanation: "The rabbit is the primary consumer because it eats the producer (grass)."
+                    },
+                    {
+                        question: "What is a carnivore?",
+                        options: [
+                            "An animal that eats only plants",
+                            "An animal that eats only meat",
+                            "An animal that eats both plants and meat",
+                            "A plant that eats animals"
+                        ],
+                        correct: 1,
+                        explanation: "A carnivore is an animal that eats only meat."
+                    }
+                ],
+                flashcards: [
+                    { front: "What is a Food Chain?", back: "A list of organisms in a habitat showing their feeding relationship - what eats what. Organisms are joined by arrows showing energy transfer." },
+                    { front: "What is a Producer?", back: "An organism that produces its own food through photosynthesis or chemosynthesis. Usually green plants or algae. They are the start of every food chain." },
+                    { front: "What is a Primary Consumer?", back: "A herbivore that eats producers (plants). It's the second level in a food chain." },
+                    { front: "What is a Secondary Consumer?", back: "A carnivore that eats primary consumers. It's the third level in a food chain." },
+                    { front: "What is a Tertiary Consumer?", back: "An animal that eats secondary consumers. Fourth level in a food chain." },
+                    { front: "What is an Apex Predator?", back: "The top predator in a food chain that is not eaten by anything else. Also called a top predator." },
+                    { front: "What is a Decomposer?", back: "Organisms (like bacteria and fungi) that break down dead organisms and waste, returning nutrients to the soil." },
+                    { front: "What is a Food Web?", back: "A complex network of interconnected food chains showing multiple feeding relationships in an ecosystem." },
+                    { front: "What is an Ecosystem?", back: "Living organisms and their physical environment (including sunlight, water, soil) all interacting together in a particular space." },
+                    { front: "What is a Herbivore?", back: "An animal that eats only plants." },
+                    { front: "What is a Carnivore?", back: "An animal that eats only meat/other animals." },
+                    { front: "What is an Omnivore?", back: "An animal that eats both plants and animals." },
+                    { front: "What is a Population?", back: "A group of individuals of the same species living in the same area." },
+                    { front: "What is a Community?", back: "All the different populations living together in one area." },
+                    { front: "What is a Habitat?", back: "The natural home or environment of an organism, including food, water, shelter, and space." },
+                    { front: "What are Trophic Levels?", back: "The stages in a food chain showing what an organism eats and what eats it." }
+                ],
+                matchingGame: {
+                    pairs: [
+                        { term: "Producer", definition: "Makes its own food through photosynthesis" },
+                        { term: "Primary Consumer", definition: "Herbivore that eats plants" },
+                        { term: "Secondary Consumer", definition: "Carnivore that eats herbivores" },
+                        { term: "Decomposer", definition: "Breaks down dead organisms" },
+                        { term: "Apex Predator", definition: "Top of food chain, no predators" },
+                        { term: "Food Web", definition: "Multiple interconnected food chains" },
+                        { term: "Herbivore", definition: "Eats only plants" },
+                        { term: "Carnivore", definition: "Eats only meat" }
+                    ]
+                },
+                notes: `
+                    <h4>🌱 Key Concepts - Food Chains & Food Webs</h4>
+                    <ul>
+                        <li><strong>Energy Flow:</strong> Energy flows from the sun → producers → consumers → decomposers</li>
+                        <li><strong>Food Chain Order:</strong> Producer → Primary Consumer → Secondary Consumer → Tertiary Consumer → Apex Predator</li>
+                        <li><strong>Remember:</strong> Arrows in food chains show the direction of energy flow (what gets eaten)</li>
+                        <li><strong>Producers:</strong> Always green plants or algae - they photosynthesize</li>
+                        <li><strong>Consumers:</strong> Can't make their own food, must eat others</li>
+                        <li><strong>Decomposers:</strong> Nature's recyclers - break down dead matter</li>
+                    </ul>
+                    <h4>📝 Study Tips</h4>
+                    <ul>
+                        <li>Draw your own food chains for different ecosystems (forest, ocean, desert)</li>
+                        <li>Remember: Food webs are more realistic than simple food chains</li>
+                        <li>Practice identifying trophic levels in any food chain</li>
+                        <li>Understand the difference between habitat, population, community, and ecosystem</li>
+                    </ul>
+                `
+            },
+            music: {
+                quizzes: [
+                    {
+                        question: "What is a tied note?",
+                        options: [
+                            "A note with a ribbon",
+                            "A curved line connecting two notes of the same pitch",
+                            "A note that is faster",
+                            "A note with a dot"
+                        ],
+                        correct: 1,
+                        explanation: "A tie is a curved line connecting the heads of two notes of the same pitch, meaning you hold the note for their combined value."
+                    },
+                    {
+                        question: "What does a tie tell you to do?",
+                        options: [
+                            "Play the note twice",
+                            "Play the note louder",
+                            "Hold the note for the combined rhythmic value",
+                            "Skip the second note"
+                        ],
+                        correct: 2,
+                        explanation: "A tie means to hold the note for the combined rhythmic value of both notes, as if they were one."
+                    },
+                    {
+                        question: "What is a dotted note?",
+                        options: [
+                            "A note with a hole in it",
+                            "A note written with a dot after it",
+                            "A note that is broken",
+                            "A very short note"
+                        ],
+                        correct: 1,
+                        explanation: "A dotted note is written with a dot after it, which increases its length."
+                    },
+                    {
+                        question: "How much longer is a dotted note compared to the same note without a dot?",
+                        options: [
+                            "Twice as long",
+                            "One and a half times as long",
+                            "Three times as long",
+                            "Half as long"
+                        ],
+                        correct: 1,
+                        explanation: "A dotted note has one and a half times the length of the same note without a dot."
+                    },
+                    {
+                        question: "If a quarter note equals 1 beat, how many beats does a dotted quarter note equal?",
+                        options: [
+                            "1 beat",
+                            "2 beats",
+                            "1.5 beats",
+                            "0.5 beats"
+                        ],
+                        correct: 2,
+                        explanation: "A dotted quarter note equals 1.5 beats (1 + 0.5 = 1.5)."
+                    },
+                    {
+                        question: "Can you tie two notes of different pitches?",
+                        options: [
+                            "Yes, always",
+                            "No, ties only connect notes of the same pitch",
+                            "Only sometimes",
+                            "Only in fast music"
+                        ],
+                        correct: 1,
+                        explanation: "Ties can only connect notes of the same pitch. Different pitches use slurs, not ties."
+                    },
+                    {
+                        question: "If a half note equals 2 beats, how many beats does a dotted half note equal?",
+                        options: [
+                            "2 beats",
+                            "2.5 beats",
+                            "3 beats",
+                            "4 beats"
+                        ],
+                        correct: 2,
+                        explanation: "A dotted half note equals 3 beats (2 + 1 = 3)."
+                    },
+                    {
+                        question: "What is the main purpose of using ties in music?",
+                        options: [
+                            "To make the music look pretty",
+                            "To extend a note's duration across bar lines or create specific rhythms",
+                            "To make the music louder",
+                            "To change the pitch"
+                        ],
+                        correct: 1,
+                        explanation: "Ties are used to extend a note's duration across bar lines or to create specific rhythmic values."
+                    },
+                    {
+                        question: "If you see two quarter notes tied together, how many beats should you hold the note?",
+                        options: [
+                            "1 beat",
+                            "2 beats",
+                            "3 beats",
+                            "4 beats"
+                        ],
+                        correct: 1,
+                        explanation: "Two tied quarter notes equal 2 beats total (1 + 1 = 2)."
+                    },
+                    {
+                        question: "What is the essential question about ties and dots?",
+                        options: [
+                            "How do ties and dots make music prettier?",
+                            "How do ties and dots affect the duration of a note?",
+                            "How do ties and dots change the pitch?",
+                            "How do ties and dots make music louder?"
+                        ],
+                        correct: 1,
+                        explanation: "The essential question is: How do ties and dots affect the duration (length) of a note?"
+                    }
+                ],
+                flashcards: [
+                    { front: "What is a Tied Note?", back: "A curved line connecting the heads of two notes of the same pitch. Hold the note for the combined rhythmic value of both notes." },
+                    { front: "What is a Dotted Note?", back: "A note written with a dot after it, which has one and a half times (1.5×) the length of the same note without a dot." },
+                    { front: "Dotted Quarter Note Value", back: "If a quarter note = 1 beat, a dotted quarter note = 1.5 beats (1 + 0.5)" },
+                    { front: "Dotted Half Note Value", back: "If a half note = 2 beats, a dotted half note = 3 beats (2 + 1)" },
+                    { front: "Dotted Whole Note Value", back: "If a whole note = 4 beats, a dotted whole note = 6 beats (4 + 2)" },
+                    { front: "Can you tie different pitches?", back: "NO! Ties only connect notes of the SAME pitch. Different pitches use slurs." },
+                    { front: "Purpose of Ties", back: "To extend a note's duration across bar lines or to create specific rhythmic values that can't be shown with a single note." },
+                    { front: "How to calculate dotted note value", back: "Take the original note value and add half of that value. Example: 2 beats + 1 beat = 3 beats" },
+                    { front: "Two tied quarter notes equal...", back: "2 beats (1 + 1 = 2). Same as a half note!" },
+                    { front: "Essential Question", back: "How do ties and dots affect the duration of a note? Answer: They make notes longer!" }
+                ],
+                matchingGame: {
+                    pairs: [
+                        { term: "Tied Note", definition: "Curved line connecting same pitches" },
+                        { term: "Dotted Note", definition: "1.5 times the original value" },
+                        { term: "Dotted Quarter", definition: "1.5 beats" },
+                        { term: "Dotted Half", definition: "3 beats" },
+                        { term: "Purpose of Tie", definition: "Extend duration across measures" },
+                        { term: "Tie Rule", definition: "Only same pitches can be tied" }
+                    ]
+                },
+                notes: `
+                    <h4>🎵 Key Concepts - Ties & Dotted Notes</h4>
+                    <ul>
+                        <li><strong>Tied Notes:</strong> Connect two notes of SAME pitch with curved line - hold for combined value</li>
+                        <li><strong>Dotted Notes:</strong> Add a dot after the note = 1.5× the original length</li>
+                        <li><strong>Quick Calculation:</strong> Dotted note = original value + half the original value</li>
+                        <li><strong>Common Values:</strong>
+                            <ul>
+                                <li>Dotted quarter = 1.5 beats</li>
+                                <li>Dotted half = 3 beats</li>
+                                <li>Dotted whole = 6 beats</li>
+                            </ul>
+                        </li>
+                    </ul>
+                    <h4>📝 Practice Tips</h4>
+                    <ul>
+                        <li>Clap rhythms with dotted notes - count "1 and 2 and 3 and"</li>
+                        <li>Remember: Ties connect SAME pitches only</li>
+                        <li>Draw your own examples of tied and dotted notes</li>
+                        <li>Practice identifying which is longer: tied or dotted notes</li>
+                    </ul>
+                `
+            },
+            spanish: {
+                quizzes: [
+                    {
+                        question: "How do you say 'Good morning' in Spanish?",
+                        options: ["Buenas tardes", "Buenos días", "Buenas noches", "Hola"],
+                        correct: 1,
+                        explanation: "'Buenos días' means 'Good morning' in Spanish."
+                    },
+                    {
+                        question: "What is the Spanish word for 'family'?",
+                        options: ["Casa", "Familia", "Amigo", "Escuela"],
+                        correct: 1,
+                        explanation: "'Familia' means family in Spanish."
+                    },
+                    {
+                        question: "Which article is feminine singular?",
+                        options: ["El", "La", "Los", "Las"],
+                        correct: 1,
+                        explanation: "'La' is the feminine singular definite article (the)."
+                    },
+                    {
+                        question: "How do you ask 'What is your name?' in Spanish?",
+                        options: ["¿Cómo estás?", "¿Cómo te llamas?", "¿Qué tal?", "¿Dónde vives?"],
+                        correct: 1,
+                        explanation: "'¿Cómo te llamas?' means 'What is your name?'"
+                    },
+                    {
+                        question: "What does '¿Qué quieres?' mean?",
+                        options: ["How are you?", "What do you want?", "Where are you?", "Who are you?"],
+                        correct: 1,
+                        explanation: "'¿Qué quieres?' means 'What do you want?'"
+                    },
+                    {
+                        question: "What is 'house' in Spanish?",
+                        options: ["Casa", "Coche", "Calle", "Ciudad"],
+                        correct: 0,
+                        explanation: "'Casa' means house in Spanish."
+                    },
+                    {
+                        question: "How do you say 'I like' in Spanish?",
+                        options: ["Me gusta", "Te gusta", "Le gusta", "Nos gusta"],
+                        correct: 0,
+                        explanation: "'Me gusta' means 'I like' in Spanish."
+                    },
+                    {
+                        question: "What does 'vecino' mean?",
+                        options: ["Friend", "Neighbor", "Teacher", "Student"],
+                        correct: 1,
+                        explanation: "'Vecino' means neighbor in Spanish."
+                    },
+                    {
+                        question: "How do you say 'Merry Christmas' in Spanish?",
+                        options: ["Feliz Cumpleaños", "Feliz Navidad", "Feliz Año Nuevo", "Feliz Día"],
+                        correct: 1,
+                        explanation: "'Feliz Navidad' means 'Merry Christmas' in Spanish."
+                    },
+                    {
+                        question: "What is the verb 'to be' in Spanish (for characteristics)?",
+                        options: ["Estar", "Ser", "Tener", "Hacer"],
+                        correct: 1,
+                        explanation: "'Ser' is used for permanent characteristics like nationality, profession."
+                    },
+                    {
+                        question: "How do you say 'Thank you' in Spanish?",
+                        options: ["Por favor", "De nada", "Gracias", "Perdón"],
+                        correct: 2,
+                        explanation: "'Gracias' means 'Thank you' in Spanish."
+                    },
+                    {
+                        question: "What does '¿Cuántos años tienes?' mean?",
+                        options: ["What's your name?", "How old are you?", "Where do you live?", "What do you like?"],
+                        correct: 1,
+                        explanation: "'¿Cuántos años tienes?' means 'How old are you?'"
+                    },
+                    {
+                        question: "What is 'bedroom' in Spanish?",
+                        options: ["Cocina", "Baño", "Dormitorio", "Sala"],
+                        correct: 2,
+                        explanation: "'Dormitorio' means bedroom in Spanish."
+                    },
+                    {
+                        question: "How do you say 'Good afternoon' in Spanish?",
+                        options: ["Buenos días", "Buenas tardes", "Buenas noches", "Hasta luego"],
+                        correct: 1,
+                        explanation: "'Buenas tardes' means 'Good afternoon' in Spanish."
+                    },
+                    {
+                        question: "What does 'querer' mean?",
+                        options: ["To like", "To want", "To have", "To be"],
+                        correct: 1,
+                        explanation: "'Querer' means 'to want' in Spanish."
+                    }
+                ],
+                flashcards: [
+                    { front: "Buenos días", back: "Good morning" },
+                    { front: "Buenas tardes", back: "Good afternoon" },
+                    { front: "Buenas noches", back: "Good evening/night" },
+                    { front: "¿Cómo te llamas?", back: "What is your name?" },
+                    { front: "Me llamo...", back: "My name is..." },
+                    { front: "¿Qué quieres?", back: "What do you want?" },
+                    { front: "Familia", back: "Family" },
+                    { front: "Casa", back: "House" },
+                    { front: "Me gusta", back: "I like" },
+                    { front: "No me gusta", back: "I don't like" },
+                    { front: "Vecino/Vecina", back: "Neighbor" },
+                    { front: "¿Dónde vives?", back: "Where do you live?" },
+                    { front: "Feliz Navidad", back: "Merry Christmas" },
+                    { front: "Por favor", back: "Please" },
+                    { front: "Gracias", back: "Thank you" },
+                    { front: "De nada", back: "You're welcome" },
+                    { front: "¿Cuántos años tienes?", back: "How old are you?" },
+                    { front: "Tengo... años", back: "I am... years old" },
+                    { front: "El/La", back: "The (masculine/feminine)" },
+                    { front: "Un/Una", back: "A/An (masculine/feminine)" },
+                    { front: "Dormitorio", back: "Bedroom" },
+                    { front: "Cocina", back: "Kitchen" },
+                    { front: "Baño", back: "Bathroom" },
+                    { front: "Sala", back: "Living room" }
+                ],
+                matchingGame: {
+                    pairs: [
+                        { term: "Buenos días", definition: "Good morning" },
+                        { term: "Familia", definition: "Family" },
+                        { term: "Casa", definition: "House" },
+                        { term: "Me gusta", definition: "I like" },
+                        { term: "Gracias", definition: "Thank you" },
+                        { term: "¿Cómo te llamas?", definition: "What is your name?" },
+                        { term: "Vecino", definition: "Neighbor" },
+                        { term: "Feliz Navidad", definition: "Merry Christmas" }
+                    ]
+                },
+                notes: `
+                    <h4>🇪🇸 Essential Spanish Vocabulary & Grammar</h4>
+                    <ul>
+                        <li><strong>Greetings:</strong>
+                            <ul>
+                                <li>Buenos días - Good morning</li>
+                                <li>Buenas tardes - Good afternoon</li>
+                                <li>Buenas noches - Good evening/night</li>
+                                <li>Hola - Hello</li>
+                                <li>Adiós - Goodbye</li>
+                            </ul>
+                        </li>
+                        <li><strong>Articles:</strong>
+                            <ul>
+                                <li>El (masculine singular) - the</li>
+                                <li>La (feminine singular) - the</li>
+                                <li>Los (masculine plural) - the</li>
+                                <li>Las (feminine plural) - the</li>
+                            </ul>
+                        </li>
+                        <li><strong>Key Verbs:</strong>
+                            <ul>
+                                <li>Ser - to be (permanent)</li>
+                                <li>Estar - to be (temporary/location)</li>
+                                <li>Tener - to have</li>
+                                <li>Querer - to want</li>
+                            </ul>
+                        </li>
+                    </ul>
+                    <h4>📝 Study Tips</h4>
+                    <ul>
+                        <li>Practice greetings daily - use them in real life!</li>
+                        <li>Label items around your house in Spanish</li>
+                        <li>Practice introducing yourself: "Me llamo [name], tengo [age] años"</li>
+                        <li>Remember gender rules: most words ending in -o are masculine, -a are feminine</li>
+                    </ul>
+                `
+            },
+            english: {
+                quizzes: [
+                    {
+                        question: "In 'Millicent' by Merle Hodge, what is the main theme?",
+                        options: [
+                            "Love and romance",
+                            "Pride and humility",
+                            "War and peace",
+                            "Technology"
+                        ],
+                        correct: 1,
+                        explanation: "The main theme is pride and humility - showing how Millicent's pride leads to her downfall."
+                    },
+                    {
+                        question: "What leads to Millicent's downfall in the story?",
+                        options: [
+                            "Her kindness",
+                            "Her pride",
+                            "Her intelligence",
+                            "Her honesty"
+                        ],
+                        correct: 1,
+                        explanation: "Millicent's excessive pride is what leads to her downfall in the story."
+                    },
+                    {
+                        question: "In 'The Bicycle' by Jean D'Costa, what does the bicycle symbolize?",
+                        options: [
+                            "Wealth",
+                            "Responsibility and independence",
+                            "Friendship",
+                            "Education"
+                        ],
+                        correct: 1,
+                        explanation: "The bicycle symbolizes responsibility and independence for the boy."
+                    },
+                    {
+                        question: "What is a main theme in 'The Bicycle'?",
+                        options: [
+                            "Revenge",
+                            "Responsibility and family",
+                            "War",
+                            "Magic"
+                        ],
+                        correct: 1,
+                        explanation: "Key themes include responsibility, independence, and family relationships."
+                    },
+                    {
+                        question: "In 'Casuarina Row' by John Wickham, what is the setting?",
+                        options: [
+                            "A school",
+                            "A neighborhood/community",
+                            "A forest",
+                            "A beach"
+                        ],
+                        correct: 1,
+                        explanation: "Casuarina Row is set in a neighborhood/community where children play together."
+                    },
+                    {
+                        question: "What is a key theme in 'Casuarina Row'?",
+                        options: [
+                            "Technology",
+                            "Friendship, imagination, and community",
+                            "Sports",
+                            "Cooking"
+                        ],
+                        correct: 1,
+                        explanation: "The story emphasizes friendship, imagination, and community bonds."
+                    },
+                    {
+                        question: "What is characterization?",
+                        options: [
+                            "The plot of a story",
+                            "The way an author develops and describes characters",
+                            "The setting of a story",
+                            "The ending of a story"
+                        ],
+                        correct: 1,
+                        explanation: "Characterization is how an author develops and describes characters in a story."
+                    },
+                    {
+                        question: "What is a simile?",
+                        options: [
+                            "A comparison using 'like' or 'as'",
+                            "Giving human qualities to objects",
+                            "A direct comparison",
+                            "An exaggeration"
+                        ],
+                        correct: 0,
+                        explanation: "A simile is a comparison using 'like' or 'as' (e.g., 'fast as lightning')."
+                    },
+                    {
+                        question: "What is a metaphor?",
+                        options: [
+                            "A comparison using 'like' or 'as'",
+                            "A direct comparison without 'like' or 'as'",
+                            "A sound word",
+                            "A repeated phrase"
+                        ],
+                        correct: 1,
+                        explanation: "A metaphor is a direct comparison without using 'like' or 'as' (e.g., 'Time is money')."
+                    },
+                    {
+                        question: "What is personification?",
+                        options: [
+                            "Describing a person",
+                            "Giving human qualities to non-human things",
+                            "Using 'like' or 'as'",
+                            "Telling a story"
+                        ],
+                        correct: 1,
+                        explanation: "Personification gives human qualities to non-human things (e.g., 'The wind whispered')."
+                    },
+                    {
+                        question: "What is the conflict in a story?",
+                        options: [
+                            "The solution",
+                            "The problem or struggle",
+                            "The setting",
+                            "The characters"
+                        ],
+                        correct: 1,
+                        explanation: "Conflict is the problem or struggle that drives the plot forward."
+                    },
+                    {
+                        question: "What is the theme of a story?",
+                        options: [
+                            "The title",
+                            "The main character",
+                            "The central message or lesson",
+                            "The first paragraph"
+                        ],
+                        correct: 2,
+                        explanation: "The theme is the central message or lesson that the author wants to convey."
+                    },
+                    {
+                        question: "In 'Over Our Way', what type of literature are these stories?",
+                        options: [
+                            "Fantasy stories",
+                            "Caribbean short stories",
+                            "Science fiction",
+                            "Mystery stories"
+                        ],
+                        correct: 1,
+                        explanation: "'Over Our Way' is a collection of Caribbean short stories."
+                    },
+                    {
+                        question: "What narrative technique uses 'I' or 'we'?",
+                        options: [
+                            "Third-person",
+                            "First-person",
+                            "Second-person",
+                            "Flashback"
+                        ],
+                        correct: 1,
+                        explanation: "First-person narrative uses 'I' or 'we' - the narrator is a character in the story."
+                    },
+                    {
+                        question: "What is dialogue in a story?",
+                        options: [
+                            "Description of setting",
+                            "Conversation between characters",
+                            "The ending",
+                            "The conflict"
+                        ],
+                        correct: 1,
+                        explanation: "Dialogue is the conversation between characters in a story."
+                    }
+                ],
+                flashcards: [
+                    { front: "Millicent - Main Theme", back: "Pride and humility - how excessive pride can lead to downfall" },
+                    { front: "The Bicycle - Main Theme", back: "Responsibility, independence, and family relationships" },
+                    { front: "Casuarina Row - Main Theme", back: "Friendship, imagination, and community bonds" },
+                    { front: "Characterization", back: "The way an author develops and describes characters through actions, dialogue, and description" },
+                    { front: "Simile", back: "A comparison using 'like' or 'as' (Example: 'brave as a lion')" },
+                    { front: "Metaphor", back: "A direct comparison without 'like' or 'as' (Example: 'He is a shining star')" },
+                    { front: "Personification", back: "Giving human qualities to non-human things (Example: 'The flowers danced')" },
+                    { front: "Theme", back: "The central message or lesson of a story" },
+                    { front: "Conflict", back: "The problem or struggle in a story (internal or external)" },
+                    { front: "First-Person Narrative", back: "Story told from 'I' or 'we' perspective - narrator is a character" },
+                    { front: "Third-Person Narrative", back: "Story told from outside perspective using 'he/she/they'" },
+                    { front: "Dialogue", back: "Conversation between characters in a story" },
+                    { front: "Setting", back: "Where and when the story takes place" },
+                    { front: "Plot", back: "The sequence of events in a story (beginning, middle, end)" },
+                    { front: "Symbolism", back: "When an object represents a bigger idea (Example: bicycle = independence)" },
+                    { front: "Caribbean Literature", back: "Stories reflecting Caribbean culture, values, and experiences" }
+                ],
+                matchingGame: {
+                    pairs: [
+                        { term: "Simile", definition: "Comparison using like/as" },
+                        { term: "Metaphor", definition: "Direct comparison" },
+                        { term: "Personification", definition: "Human qualities to objects" },
+                        { term: "Theme", definition: "Central message/lesson" },
+                        { term: "Conflict", definition: "Problem in the story" },
+                        { term: "Dialogue", definition: "Character conversation" },
+                        { term: "Millicent Theme", definition: "Pride and humility" },
+                        { term: "Bicycle Theme", definition: "Responsibility and independence" }
+                    ]
+                },
+                notes: `
+                    <h4>📖 Story Summaries & Themes</h4>
+                    <ul>
+                        <li><strong>Millicent:</strong> A story about pride and how it can lead to downfall. Shows the importance of humility and treating others with respect.</li>
+                        <li><strong>The Bicycle:</strong> About a boy gaining responsibility and independence through owning a bicycle. Shows family relationships and growing up.</li>
+                        <li><strong>Casuarina Row:</strong> Celebrates friendship, imagination, and community. Shows children using creativity in their neighborhood.</li>
+                    </ul>
+                    <h4>📚 Literary Devices to Know</h4>
+                    <ul>
+                        <li><strong>Simile:</strong> Comparison with 'like/as' → "fast as lightning"</li>
+                        <li><strong>Metaphor:</strong> Direct comparison → "life is a journey"</li>
+                        <li><strong>Personification:</strong> Human traits to objects → "trees whispered"</li>
+                        <li><strong>Symbolism:</strong> Objects representing ideas → bicycle = freedom</li>
+                    </ul>
+                    <h4>📝 Analysis Tips</h4>
+                    <ul>
+                        <li>Identify theme by asking: "What lesson does this story teach?"</li>
+                        <li>Look for character development: how do they change?</li>
+                        <li>Note the setting and how it affects the story</li>
+                        <li>Find examples of literary devices to support your analysis</li>
+                    </ul>
+                `
+            }
+        };
+
+        // Statistics tracking
+        let stats = {
+            quizzesCompleted: 0,
+            flashcardsReviewed: 0,
+            gamesPlayed: 0,
+            totalScore: 0,
+            scoreCount: 0
+        };
+
+        // Load stats from localStorage
+        function loadStats() {
+            const saved = localStorage.getItem('examStudyStats');
+            if (saved) {
+                stats = JSON.parse(saved);
+                updateStats();
+            }
+        }
+
+        // Save stats to localStorage
+        function saveStats() {
+            localStorage.setItem('examStudyStats', JSON.stringify(stats));
+            updateStats();
+        }
+
+        // Update stats display
+        function updateStats() {
+            document.getElementById('quizzesCompleted').textContent = stats.quizzesCompleted;
+            document.getElementById('flashcardsReviewed').textContent = stats.flashcardsReviewed;
+            document.getElementById('gamesPlayed').textContent = stats.gamesPlayed;
+            
+            const avgScore = stats.scoreCount > 0 ? Math.round(stats.totalScore / stats.scoreCount) : 0;
+            document.getElementById('avgScore').textContent = avgScore + '%';
+            
+            const totalActivities = stats.quizzesCompleted + stats.flashcardsReviewed + stats.gamesPlayed;
+            const progress = Math.min((totalActivities / 20) * 100, 100);
+            document.getElementById('overallProgress').style.width = progress + '%';
+            document.getElementById('overallProgress').textContent = Math.round(progress) + '%';
+        }
+
+        function openModal() {
+            document.getElementById('modal').style.display = 'block';
+        }
+
+        function closeModal() {
+            document.getElementById('modal').style.display = 'none';
+        }
+
+        function openQuiz(subject) {
+            const data = studyData[subject];
+            const modalBody = document.getElementById('modalBody');
+            
+            let html = `
+                <h2>📝 ${subject.charAt(0).toUpperCase() + subject.slice(1)} Quiz</h2>
+                <div class="timer" id="timer">Time: 0:00</div>
+                <div class="quiz-container" id="quizContainer">
+            `;
+            
+            data.quizzes.forEach((q, index) => {
+                html += `
+                    <div class="question" id="question${index}">
+                        <h4>Question ${index + 1}: ${q.question}</h4>
+                        <div class="options">
+                `;
+                
+                q.options.forEach((option, optIndex) => {
+                    html += `
+                        <div class="option" onclick="selectAnswer(${index}, ${optIndex}, ${q.correct}, '${subject}')">
+                            ${option}
+                        </div>
+                    `;
+                });
+                
+                html += `
+                        </div>
+                        <div id="explanation${index}" style="display:none; margin-top:15px; padding:15px; background:#e3f2fd; border-radius:10px;">
+                            <strong>✓ Correct!</strong> ${q.explanation}
+                        </div>
+                    </div>
+                `;
+            });
+            
+            html += `
+                </div>
+                <button class="submit-btn" onclick="submitQuiz('${subject}')">Submit Quiz</button>
+            `;
+            
+            modalBody.innerHTML = html;
+            openModal();
+            
+            startTimer();
+        }
+
+        let timerInterval;
+        let seconds = 0;
+
+        function startTimer() {
+            seconds = 0;
+            clearInterval(timerInterval);
+            timerInterval = setInterval(() => {
+                seconds++;
+                const mins = Math.floor(seconds / 60);
+                const secs = seconds % 60;
+                const timerEl = document.getElementById('timer');
+                if (timerEl) {
+                    timerEl.textContent = `Time: ${mins}:${secs.toString().padStart(2, '0')}`;
+                }
+            }, 1000);
+        }
+
+        let answers = [];
+
+        function selectAnswer(questionIndex, optionIndex, correctIndex, subject) {
+            const question = document.getElementById(`question${questionIndex}`);
+            const options = question.querySelectorAll('.option');
+            
+            // Remove previous selections
+            options.forEach(opt => {
+                opt.classList.remove('correct', 'incorrect');
+            });
+            
+            // Mark the selected answer
+            if (optionIndex === correctIndex) {
+                options[optionIndex].classList.add('correct');
+                document.getElementById(`explanation${questionIndex}`).style.display = 'block';
+            } else {
+                options[optionIndex].classList.add('incorrect');
+                options[correctIndex].classList.add('correct');
+            }
+            
+            answers[questionIndex] = optionIndex;
+        }
+
+        function submitQuiz(subject) {
+            clearInterval(timerInterval);
+            
+            const data = studyData[subject];
+            let correct = 0;
+            
+            data.quizzes.forEach((q, index) => {
+                if (answers[index] === q.correct) {
+                    correct++;
+                }
+            });
+            
+            const score = Math.round((correct / data.quizzes.length) * 100);
+            
+            stats.quizzesCompleted++;
+            stats.totalScore += score;
+            stats.scoreCount++;
+            saveStats();
+            
+            const modalBody = document.getElementById('modalBody');
+            modalBody.innerHTML = `
+                <h2>🎉 Quiz Complete!</h2>
+                <div class="score-display">
+                    You scored ${correct} out of ${data.quizzes.length}
+                    <br><strong>${score}%</strong>
+                    ${score >= 90 ? '<br>🌟 Outstanding! A+ material!' : 
+                      score >= 75 ? '<br>⭐ Great job! Keep it up!' : 
+                      score >= 60 ? '<br>👍 Good effort! Review and try again!' : 
+                      '💪 Keep studying! You can do better!'}
+                </div>
+                <button class="submit-btn" onclick="openQuiz('${subject}')">Try Again</button>
+                <button class="nav-btn" onclick="closeModal()" style="margin-left:10px;">Back to Subjects</button>
+            `;
+            
+            answers = [];
+        }
+
+        function openFlashcards(subject) {
+            const data = studyData[subject];
+            const modalBody = document.getElementById('modalBody');
+            
+            let currentCard = 0;
+            
+            function displayCard() {
+                const card = data.flashcards[currentCard];
+                modalBody.innerHTML = `
+                    <h2>🎴 ${subject.charAt(0).toUpperCase() + subject.slice(1)} Flashcards</h2>
+                    <p style="text-align:center; color:#666;">Card ${currentCard + 1} of ${data.flashcards.length}</p>
+                    <p style="text-align:center; color:#999; margin-bottom:20px;">Click card to flip</p>
+                    <div class="flashcard">
+                        <div class="flashcard-inner" id="flashcardInner" onclick="flipCard()">
+                            <div class="flashcard-front">
+                                <strong>${card.front}</strong>
+                            </div>
+                            <div class="flashcard-back">
+                                ${card.back}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="nav-buttons">
+                        <button class="nav-btn" onclick="prevCard()" ${currentCard === 0 ? 'disabled' : ''}>← Previous</button>
+                        <button class="nav-btn" onclick="nextCard()" ${currentCard === data.flashcards.length - 1 ? 'disabled' : ''}>Next →</button>
+                    </div>
+                `;
+            }
+            
+            window.flipCard = function() {
+                document.getElementById('flashcardInner').classList.toggle('flipped');
+            };
+            
+            window.nextCard = function() {
+                if (currentCard < data.flashcards.length - 1) {
+                    currentCard++;
+                    displayCard();
+                    stats.flashcardsReviewed++;
+                    saveStats();
+                }
+            };
+            
+            window.prevCard = function() {
+                if (currentCard > 0) {
+                    currentCard--;
+                    displayCard();
+                }
+            };
+            
+            displayCard();
+            openModal();
+        }
+
+        function openGame(subject) {
+            const data = studyData[subject];
+            const modalBody = document.getElementById('modalBody');
+            
+            // Shuffle pairs
+            const shuffledTerms = [...data.matchingGame.pairs].sort(() => Math.random() - 0.5);
+            const shuffledDefs = [...data.matchingGame.pairs].sort(() => Math.random() - 0.5);
+            
+            let selectedTerm = null;
+            let selectedDef = null;
+            let matches = 0;
+            
+            let html = `
+                <h2>🎮 ${subject.charAt(0).toUpperCase() + subject.slice(1)} Matching Game</h2>
+                <p style="text-align:center; color:#666; margin-bottom:20px;">Match the terms with their definitions!</p>
+                <div class="score-display">Matches: <span id="matchCount">0</span> / ${data.matchingGame.pairs.length}</div>
+                <div class="matching-game">
+                    <div class="matching-column" id="termsColumn">
+            `;
+            
+            shuffledTerms.forEach((pair, index) => {
+                html += `
+                    <div class="match-item" onclick="selectTerm(${index}, '${pair.term}')" id="term${index}">
+                        ${pair.term}
+                    </div>
+                `;
+            });
+            
+            html += `
+                    </div>
+                    <div class="matching-column" id="defsColumn">
+            `;
+            
+            shuffledDefs.forEach((pair, index) => {
+                html += `
+                    <div class="match-item" onclick="selectDef(${index}, '${pair.term}')" id="def${index}">
+                        ${pair.definition}
+                    </div>
+                `;
+            });
+            
+            html += `
+                    </div>
+                </div>
+            `;
+            
+            modalBody.innerHTML = html;
+            
+            window.selectTerm = function(index, term) {
+                if (document.getElementById(`term${index}`).classList.contains('matched')) return;
+                
+                // Deselect previous term
+                document.querySelectorAll('#termsColumn .match-item').forEach(item => {
+                    item.classList.remove('selected');
+                });
+                
+                selectedTerm = { index, term };
+                document.getElementById(`term${index}`).classList.add('selected');
+                
+                checkMatch();
+            };
+            
+            window.selectDef = function(index, term) {
+                if (document.getElementById(`def${index}`).classList.contains('matched')) return;
+                
+                // Deselect previous def
+                document.querySelectorAll('#defsColumn .match-item').forEach(item => {
+                    item.classList.remove('selected');
+                });
+                
+                selectedDef = { index, term };
+                document.getElementById(`def${index}`).classList.add('selected');
+                
+                checkMatch();
+            };
+            
+            function checkMatch() {
+                if (selectedTerm && selectedDef) {
+                    if (selectedTerm.term === selectedDef.term) {
+                        // Correct match!
+                        document.getElementById(`term${selectedTerm.index}`).classList.add('matched');
+                        document.getElementById(`def${selectedDef.index}`).classList.add('matched');
+                        document.getElementById(`term${selectedTerm.index}`).classList.remove('selected');
+                        document.getElementById(`def${selectedDef.index}`).classList.remove('selected');
+                        
+                        matches++;
+                        document.getElementById('matchCount').textContent = matches;
+                        
+                        if (matches === data.matchingGame.pairs.length) {
+                            setTimeout(() => {
+                                stats.gamesPlayed++;
+                                stats.totalScore += 100;
+                                stats.scoreCount++;
+                                saveStats();
+                                
+                                modalBody.innerHTML = `
+                                    <h2>🎉 Congratulations!</h2>
+                                    <div class="score-display">
+                                        You matched all pairs correctly!
+                                        <br><strong>100%</strong>
+                                        <br>🌟 Perfect Score!
+                                    </div>
+                                    <button class="submit-btn" onclick="openGame('${subject}')">Play Again</button>
+                                    <button class="nav-btn" onclick="closeModal()" style="margin-left:10px;">Back to Subjects</button>
+                                `;
+                            }, 500);
+                        }
+                    } else {
+                        // Incorrect - deselect after a moment
+                        setTimeout(() => {
+                            document.getElementById(`term${selectedTerm.index}`).classList.remove('selected');
+                            document.getElementById(`def${selectedDef.index}`).classList.remove('selected');
+                        }, 500);
+                    }
+                    
+                    selectedTerm = null;
+                    selectedDef = null;
+                }
+            }
+            
+            openModal();
+        }
+
+        function openNotes(subject) {
+            const data = studyData[subject];
+            const modalBody = document.getElementById('modalBody');
+            
+            modalBody.innerHTML = `
+                <h2>📚 ${subject.charAt(0).toUpperCase() + subject.slice(1)} Study Notes</h2>
+                <div class="notes-section">
+                    ${data.notes}
+                </div>
+                <button class="nav-btn" onclick="closeModal()">Back to Subjects</button>
+            `;
+            
+            openModal();
+        }
+
+        // Close modal when clicking outside
+        window.onclick = function(event) {
+            const modal = document.getElementById('modal');
+            if (event.target === modal) {
+                closeModal();
+            }
+        };
+
+        // Load stats on page load
+        loadStats();
+    </script>
+</body>
+</html>
